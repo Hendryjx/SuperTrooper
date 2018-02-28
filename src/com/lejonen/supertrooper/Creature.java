@@ -1,10 +1,13 @@
 package com.lejonen.supertrooper;
 
+import java.security.PublicKey;
+
 public abstract class Creature {
 
     double x;
     double y;
     double speed;
+    public char character;
 
 
     //Base class.
@@ -35,10 +38,18 @@ class Enemy extends Creature {
 
 class FastEnemy extends Enemy {
 
+
+    public FastEnemy() {
+        this.character = 'X';
+    }
 }
 
 class SlowEnemy extends Enemy {
 
+    public SlowEnemy() {
+        this.character = 'O';
+
+    }
 }
 
 class PowerUp extends Creature {

@@ -6,19 +6,18 @@ public class Draw {
 
     public void drawPlayer(Terminal terminal, Player player){
 
-        double x = player.x;
-        double y = player.y;
+        // kontroll om flytt får ske
+        int x = (int) player.x;
+        int y = (int) player.y;
 
-        terminal.moveCursor((int )x - 1, (int) y);
+        terminal.moveCursor(x - 1, y);
         terminal.putCharacter('=');
 
-        terminal.moveCursor((int )x, (int) y);
+        terminal.moveCursor(x, y);
         terminal.putCharacter('=');
 
-        terminal.moveCursor((int )x + 1, (int) y);
+        terminal.moveCursor(x + 1, y);
         terminal.putCharacter('=');
-
-        terminal.clearScreen();
 
         //Skicka in terminal, den som skall anropa draw måste ha tillgång till terminalen redan.
         //Skicka in positioner för Player, Shot, Creature, Collision(?).
@@ -26,13 +25,11 @@ public class Draw {
 
     public void drawShot(Terminal terminal, Shot shot){
 
-        double x = shot.x;
-        double y = shot.y;
+        int x = (int) shot.x;
+        int y = (int) shot.y;
 
-        terminal.moveCursor((int )x, (int) y);
-        terminal.putCharacter('|');
-
-        terminal.clearScreen();
+        terminal.moveCursor(x, y);
+        terminal.putCharacter(shot.character);
 
         //Skicka in terminal, den som skall anropa draw måste ha tillgång till terminalen redan.
         //Skicka in positioner för Player, Shot, Creature, Collision(?).
@@ -40,13 +37,11 @@ public class Draw {
 
     public void drawCreature(Terminal terminal, Creature creature){
 
-        double x = creature.x;
-        double y = creature.y;
+        int x = (int) creature.x;
+        int y = (int) creature.y;
 
-        terminal.moveCursor((int) x, (int) y);
-        terminal.putCharacter('\u2620');
-
-        terminal.clearScreen();
+        terminal.moveCursor(x, y);
+        terminal.putCharacter(creature.character);
 
         //Skicka in terminal, den som skall anropa draw måste ha tillgång till terminalen redan.
         //Skicka in positioner för Player, Shot, Creature, Collision(?).

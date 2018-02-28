@@ -1,5 +1,10 @@
 package com.lejonen.supertrooper;
 
+import com.googlecode.lanterna.TerminalFacade;
+import com.googlecode.lanterna.terminal.Terminal;
+
+import java.nio.charset.Charset;
+
 public class Game {
 
     public boolean running;
@@ -7,12 +12,13 @@ public class Game {
     //Game initieras.
 
 
-
     public Game() {
 
         this.running = true;
-
-
+        Player player = new Player(x, y, speed);
+        Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
+        terminal.enterPrivateMode();
+        terminal.setCursorVisible(false);
 
     }
 
@@ -27,8 +33,8 @@ public class Game {
         final double timeU = 1000000000 / 60; //Updates per second
         final double timeF = 1000000000 / 30; //FPS;
         double deltaU = 0, deltaF = 0;
-        int frames = 0, ticks = 0;
-        long timer = System.currentTimeMillis();
+        //int frames = 0, ticks = 0;
+        //long timer = System.currentTimeMillis();
 
         while (this.running) {
 
@@ -56,26 +62,26 @@ public class Game {
 //                frames = 0;
 //                ticks = 0;
 //                timer += 1000;
-            }
         }
+    }
 
 
-        public void render(){
+    public void render() {
 
-            Draw.drawPlayer(player);
-            Draw.drawCreature();
-            Draw.drawShot();
+        Draw.drawPlayer(player);
+        Draw.drawCreature();
+        Draw.drawShot();
 
-
-        }
 
     }
 
-    //Input behöver hanteras.
-    //gameLoop --> handleInput, updateObjects, draw.
-    //Kontroll om gameLoopen skall köras igen.
+}
 
-    //gameLoop måste räkna ut NÄR den skall kalla metoderna.
+//Input behöver hanteras.
+//gameLoop --> handleInput, updateObjects, draw.
+//Kontroll om gameLoopen skall köras igen.
 
-    //Gameobjekt som har variablerna level och score.
+//gameLoop måste räkna ut NÄR den skall kalla metoderna.
+
+//Gameobjekt som har variablerna level och score.
 }
