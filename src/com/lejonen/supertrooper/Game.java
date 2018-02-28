@@ -8,4 +8,6 @@ public class Game {
     //Kontroll om gameLoopen skall köras igen.
 
     //gameLoop måste räkna ut NÄR den skall kalla metoderna.
+
+    //Gameobjekt som har variablerna level och score.
 }

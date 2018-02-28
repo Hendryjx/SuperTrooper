@@ -2,6 +2,11 @@ package com.lejonen.supertrooper;
 
 public abstract class Creature {
 
+    double x;
+    double y;
+    double speed;
+
+
     //Base class.
 
     //Creature skall röra sig.
@@ -11,15 +16,24 @@ public abstract class Creature {
     //Creature kan kollidera.
     //Creture kan skjutas sönder.
 
+    public Creature(double x, double y, double speed) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+
+    }
+
+    public Creature() {
+
+    }
 }
 
 class Enemy extends Creature {
     //Enemy är skadlig.
-    //Vi
 
 }
 
-class FastEnemy extends Enemy{
+class FastEnemy extends Enemy {
 
 }
 
