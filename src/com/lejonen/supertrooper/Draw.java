@@ -4,7 +4,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 public class Draw {
 
-    public void drawPlayer(Terminal terminal, Player player){
+    public static void drawPlayer(Terminal terminal, Player player){
 
         // kontroll om flytt får ske
         int x = (int) player.x;
@@ -23,7 +23,7 @@ public class Draw {
         //Skicka in positioner för Player, Shot, Creature, Collision(?).
     }
 
-    public void drawShot(Terminal terminal, Shot shot){
+    public static void drawShot(Terminal terminal, Shot shot){
 
         int x = (int) shot.x;
         int y = (int) shot.y;
@@ -35,7 +35,7 @@ public class Draw {
         //Skicka in positioner för Player, Shot, Creature, Collision(?).
     }
 
-    public void drawCreature(Terminal terminal, Creature creature){
+    public static void drawCreature(Terminal terminal, Creature creature){
 
         int x = (int) creature.x;
         int y = (int) creature.y;

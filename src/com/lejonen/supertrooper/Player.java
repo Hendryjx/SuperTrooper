@@ -27,6 +27,18 @@ public class Player {
 
     //Player skall enbart röra sig i sidled via knapptryckningar. Rörelsen sker i floatvärden.
 
+    public void moveLeft() {
+        this.x -= this.speed;
+    }
+
+    public void moveRight() {
+        this.x += this.speed;
+    }
+
+    public void shoot(List<Shot> shots) {
+        shots.add(new Shot(this.x, this.y, 0.5));
+    }
+
     //Player skall kunna skjuta vid input.
 
 

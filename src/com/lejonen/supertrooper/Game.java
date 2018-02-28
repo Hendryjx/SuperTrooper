@@ -1,25 +1,34 @@
 package com.lejonen.supertrooper;
 
 import com.googlecode.lanterna.TerminalFacade;
+import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
     public boolean running;
+    int width = 100;
+    int height = 30;
+    Player player;
+    Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
 
+    List<Creature> creatures;
+    List<Shot> shots;
     //Game initieras.
 
 
     public Game() {
 
         this.running = true;
-        Player player = new Player(x, y, speed);
-        Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
+
         terminal.enterPrivateMode();
         terminal.setCursorVisible(false);
 
+        player = new Player(width / 2, height, 2);
     }
 
 
@@ -27,6 +36,8 @@ public class Game {
 
     public void startGame() {
 
+        creatures = new ArrayList<>();
+        shots = new ArrayList<>();
 
 //        boolean RENDER_TIME = true;
         long initialTime = System.nanoTime();
@@ -65,12 +76,78 @@ public class Game {
         }
     }
 
+    public void update() {
+
+
+        handleInput();
+        updateCreatures();
+        updateShots();
+
+
+    }
+
+    public void handleInput() {
+
+        Key key = terminal.readInput();
+
+        if (key == null)
+            return;
+        switch (key.getCharacter()) {
+            case 'L':
+                player.moveLeft();
+                break;
+            case 'R':
+                player.moveRight();
+                break;
+            case ' ':
+                player.shoot(shots);
+                break;
+            default:
+                return;
+        }
+    }
+
+    public void updateCreatures() {
+
+        if (Math.random() < (1.00 / 120)) {
+            if (Math.random() > 0.50) {
+                creatures.add(new ExtraLife(Math.random() * width, 0, 0.05));
+            } else if (Math.random() > 0.50) {
+                creatures.add(new PowerUp(Math.random() * width, 0, 0.05));
+            } else if (Math.random() > 0.80) {
+                creatures.add(new FastEnemy(Math.random() * width, 0, 0.1));
+            } else {
+                creatures.add(new SlowEnemy(Math.random() * width, 0, 0.05));
+            }
+        }
+
+
+        for (Creature creature : creatures) {
+            Creature.moveCreature(creature);
+        }
+    }
+
+    public void updateShots() {
+
+        for (Shot shot : shots) {
+            Shot.moveShot(shot);
+        }
+    }
+
 
     public void render() {
 
-        Draw.drawPlayer(player);
-        Draw.drawCreature();
-        Draw.drawShot();
+        terminal.clearScreen();
+
+        Draw.drawPlayer(terminal, this.player);
+
+        for (Creature creature : creatures) {
+            Draw.drawCreature(terminal, creature);
+        }
+
+        for (Shot shot : shots) {
+            Draw.drawShot(terminal, shot);
+        }
 
 
     }
@@ -84,4 +161,3 @@ public class Game {
 //gameLoop måste räkna ut NÄR den skall kalla metoderna.
 
 //Gameobjekt som har variablerna level och score.
-}
