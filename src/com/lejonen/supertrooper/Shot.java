@@ -17,6 +17,5 @@ public class Shot {
         this.x = x;
         this.y = y;
         this.speed = speed;
-
     }
 }

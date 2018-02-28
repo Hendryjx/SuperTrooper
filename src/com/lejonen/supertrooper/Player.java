@@ -9,6 +9,8 @@ public class Player {
     double y;
     double speed;
 
+    String[] sprite;
+
     //Player skall räkna sina liv. Variabeln life skall ha en set- och en getmetod.
     //99 liv är max.
 
@@ -18,6 +20,7 @@ public class Player {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.sprite[0] = "===";
 
     }//Player behöver en konstruktor.
 
