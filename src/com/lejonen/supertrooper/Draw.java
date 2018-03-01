@@ -4,7 +4,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 public class Draw {
 
-    //För varje metod, lägg till byt färg till aktuellt objekts färg.
+    //To do: För varje metod, lägg till byt färg till aktuellt objekts färg.
 
     public static void drawPlayer(Terminal terminal, Player player){
 

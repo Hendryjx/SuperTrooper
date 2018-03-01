@@ -13,11 +13,10 @@ public class Player {
 
     public char character;
 
+    //To do: Player skall räkna sina liv. Variabeln life skall ha en set- och en getmetod.
+    //To do: 99 liv är max.
 
-    //Player skall räkna sina liv. Variabeln life skall ha en set- och en getmetod.
-    //99 liv är max.
-
-    //Player behöver hålla koll på sin position (x,y). Positionen behöver ha en set- och getmetod.
+    //To do: Player behöver hålla koll på sin position (x,y). Positionen behöver ha en set- och getmetod.
 
     public Player (double x, double y, double speed){
         this.x = x;
@@ -27,23 +26,23 @@ public class Player {
         this.life = 3;
         this.character='=';
 
-    }//Player behöver en konstruktor.
-
-    //Player skall enbart röra sig i sidled via knapptryckningar. Rörelsen sker i floatvärden.
+    }
 
     public void moveLeft() {
+
         this.x -= this.speed;
     }
 
     public void moveRight() {
+
         this.x += this.speed;
     }
 
     public void shoot(List<Shot> shots) {
+
         shots.add(new Shot(this.x, this.y, 0.5));
     }
 
-    //Player skall kunna skjuta vid input.
 
 
 

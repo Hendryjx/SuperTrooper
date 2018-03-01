@@ -7,19 +7,9 @@ public abstract class Creature {
     double speed = 0.05;
     public char character;
 
-
-    //Base class.
-
-    //Creature skall röra sig.
-
-    //Creature skall ha en position (x, y)
-
-    //Creature kan kollidera.
-    //Creture kan skjutas sönder.
-
-    //Lägg till färg för varje klass av creature.
-    //Nya creatures med annorlunda rörelsemönster.
-    //Vapen power-up.
+    //To do: Lägg till färg för varje klass av creature.
+    //To do: Nya creatures med annorlunda rörelsemönster.
+    //To do: Vapen power-up.
 
     public Creature(double x, double y) {
         this.x = x;
@@ -30,16 +20,15 @@ public abstract class Creature {
     }
 
     public static void moveCreature(Creature creature) {
+
         creature.y += creature.speed;
     }
 }
-
 
 abstract class Enemy extends Creature {
 
     public int value;
 
-    //Enemy är skadlig.
     public Enemy(double x, double y) {
         super(x, y);
     }
@@ -80,7 +69,6 @@ class PowerUp extends Creature {
         this.character = 'U';
 
     }
-
 }
 
 class ExtraLife extends PowerUp {
@@ -95,5 +83,3 @@ class ExtraLife extends PowerUp {
 class WeaponBoost extends PowerUp {
 
 }
-
-

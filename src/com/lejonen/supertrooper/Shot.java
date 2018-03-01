@@ -1,17 +1,14 @@
 package com.lejonen.supertrooper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Shot {
 
     double x;
     double y;
     double speed;
-    double deltax;
-    double deltay;
-
     public char character;
+
+    //To do: double deltax;
+    //To do: double deltay;
 
     public Shot(double x, double y, double speed) {
         this.x = x;
@@ -25,5 +22,4 @@ public class Shot {
         shot.y -= shot.speed;
 
     }
-
 }
