@@ -1,5 +1,7 @@
 package com.lejonen.supertrooper;
 
+import java.util.List;
+
 public abstract class Creature {
 
     double x;
@@ -21,8 +23,16 @@ public abstract class Creature {
 
     public static void moveCreature(Creature creature) {
 
-        creature.y += creature.speed;
+        creature.y += creature.speed*Game.level;
     }
+
+    public static void levelUpCreatures(List<Creature> creatures) {
+
+        for (int i = creatures.size()-1; i>=0; i--) {
+            creatures.get(i).speed += (creatures.get(i).speed * 0.25);
+        }
+    }
+
 }
 
 abstract class Enemy extends Creature {
