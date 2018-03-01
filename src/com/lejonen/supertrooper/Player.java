@@ -8,7 +8,8 @@ public class Player {
     double x;
     double y;
     double speed;
-    //Lägg till score och life.
+    int score;
+    int life;
 
     public char character;
 
@@ -22,6 +23,8 @@ public class Player {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.score = 0;
+        this.life = 3;
         this.character='=';
 
     }//Player behöver en konstruktor.

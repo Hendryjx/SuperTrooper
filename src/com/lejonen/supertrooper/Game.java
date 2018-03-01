@@ -40,17 +40,17 @@ public class Game {
         creatures = new ArrayList<>();
         shots = new ArrayList<>();
 
-//        boolean RENDER_TIME = true;
+        boolean RENDER_TIME = true;
         long initialTime = System.nanoTime();
         final double timeU = 1000000000 / 60; //Updates per second
         final double timeF = 1000000000 / 30; //FPS;
         double deltaU = 0, deltaF = 0;
-        //int frames = 0, ticks = 0;
-        //long timer = System.currentTimeMillis();
+        int frames = 0, ticks = 0;
+        long timer = System.currentTimeMillis();
 
 
         //Ändra condition till life större än noll.
-        while (this.running) {
+        while (player.life>0) {
 
             long currentTime = System.nanoTime();
             deltaU += (currentTime - initialTime) / timeU;
@@ -59,24 +59,27 @@ public class Game {
 
             if (deltaU >= 1) {
                 update();
-//                ticks++;
+                ticks++;
                 deltaU--;
             }
 
             if (deltaF >= 1) {
                 render();
-//                frames++;
+                frames++;
                 deltaF--;
             }
 
-//            if (System.currentTimeMillis() - timer > 1000) {
-//                if (RENDER_TIME) {
-//                    System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
-//                }
-//                frames = 0;
-//                ticks = 0;
-//                timer += 1000;
+            if (System.currentTimeMillis() - timer > 1000) {
+                if (RENDER_TIME) {
+                    System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
+                    System.out.println("SCORE: " + player.score + "     LIFE: " + player.life);
+                }
+                frames = 0;
+                ticks = 0;
+                timer += 1000;
+            }
         }
+        System.out.println("Game over");
     }
 
     public void update() {
@@ -93,12 +96,17 @@ public class Game {
 
     private void checkCollisions() {
 
+        //Maybe shot and creature should both be part of a superclass Entity to streamline the code and remove duplication.
+
+        //Remove shots that are outside screen.
         if (shots.size() > 0) {
             for (int i = shots.size()-1; i >= 0; i--) {
                 if (shots.get(i).y < 0 || shots.get(i).y > height)
                     shots.remove(shots.get(i));
             }
         }
+
+        //Remove creatures that are outside screen.
          if (creatures.size() > 0) {
             for (int i = creatures.size()-1; i >= 0; i--) {
                 if (creatures.get(i).y > height)
@@ -106,6 +114,31 @@ public class Game {
                     creatures.remove(creatures.get(i));
             }
         }
+
+
+        //Check player collision with creatures
+        if (creatures.size() > 0) {
+            for (int i = creatures.size()-1; i>=0; i--) {
+                if ((Math.abs(creatures.get(i).y - player.y) < 1) && ((Math.abs(creatures.get(i).x - player.x) < 1.5))) {
+                    if (creatures.get(i) instanceof Enemy) {
+                        --player.life;
+                    }
+                    else if (creatures.get(i) instanceof ExtraLife) {
+                        ++player.life;
+                    }
+                    else if (creatures.get(i) instanceof PowerUp) {
+                        player.score += 10;
+                    }
+                    creatures.remove(creatures.get(i));
+                }
+            }
+        }
+
+        
+
+
+
+
 
         //Lägg till collisions mellan spelare och creatures, skott och creatures och spelare och skott.
         //Öka score om spelaren träffar fiende, öka life om hjärta plockas upp etc.
@@ -157,7 +190,6 @@ public class Game {
                 creatures.add(new FastEnemy(Math.random() * width, 0));
             } else {
                 creatures.add(new SlowEnemy(Math.random() * width, 0));
-                System.out.println("slow enemy");
             }
         }
     }
