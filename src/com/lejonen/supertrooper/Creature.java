@@ -37,6 +37,8 @@ public abstract class Creature {
 
 abstract class Enemy extends Creature {
 
+    public int value;
+
     //Enemy är skadlig.
     public Enemy(double x, double y) {
         super(x, y);
@@ -54,6 +56,7 @@ class FastEnemy extends Enemy {
         super(x, y);
         this.character = 'X';
         this.speed = 0.1;
+        this.value = 5;
     }
 }
 
@@ -62,6 +65,7 @@ class SlowEnemy extends Enemy {
     public SlowEnemy(double x, double y) {
         super(x, y);
         this.character = 'O';
+        this.value = 1;
     }
 }
 

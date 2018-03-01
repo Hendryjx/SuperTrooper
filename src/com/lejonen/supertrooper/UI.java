@@ -2,6 +2,9 @@ package com.lejonen.supertrooper;
 
 public class UI {
 
+    String headerMessage = "";
+
+
     //UI skall showScore,
     //UI skall showLives,
     //Returna en String som innehåller både nyckelord och värden, stringen ska skickas till drawfunktionen.

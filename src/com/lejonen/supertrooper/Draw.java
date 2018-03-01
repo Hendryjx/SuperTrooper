@@ -41,4 +41,23 @@ public class Draw {
         terminal.putCharacter(creature.character);
 
     }
+
+    public static void drawHeader(Terminal terminal, Player player) {
+
+        String header = "SCORE: " + player.score + "        LIFE: " + player.life + "       FPS: " + Game.fps;
+//        header +=
+        int x = 1;
+        int y = 0;
+
+        for (int i = 0; i < Game.WIDTH; i++) {
+            terminal.moveCursor(i, y + 1);
+            terminal.putCharacter('-');
+        }
+
+        for (int k = 0; k < header.length(); k++) {
+            terminal.moveCursor(x, y);
+            terminal.putCharacter(header.charAt(k));
+            x += 1;
+        }
+    }
 }

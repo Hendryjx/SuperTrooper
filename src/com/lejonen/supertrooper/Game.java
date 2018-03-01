@@ -11,9 +11,12 @@ import java.util.List;
 public class Game {
 
     public boolean running;
-    //gjorde width och height final
-    final int width = 100;
-    final int height = 30;
+    //gjorde WIDTH och HEIGHT final
+    public static final int WIDTH = 100;
+    public static final int HEIGHT = 30;
+    public static final int CEILING = 2;
+    public static int fps = 0;
+
     Player player;
     Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
 
@@ -29,7 +32,7 @@ public class Game {
         terminal.enterPrivateMode();
         terminal.setCursorVisible(false);
 
-        player = new Player(width / 2, height, 2);
+        player = new Player(WIDTH / 2, HEIGHT, 2);
     }
 
 
@@ -72,6 +75,7 @@ public class Game {
             if (System.currentTimeMillis() - timer > 1000) {
                 if (RENDER_TIME) {
                     System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
+                    fps = frames;
                     System.out.println("SCORE: " + player.score + "     LIFE: " + player.life);
                 }
                 frames = 0;
@@ -101,7 +105,7 @@ public class Game {
         //Remove shots that are outside screen.
         if (shots.size() > 0) {
             for (int i = shots.size()-1; i >= 0; i--) {
-                if (shots.get(i).y < 0 || shots.get(i).y > height)
+                if (shots.get(i).y < CEILING || shots.get(i).y > HEIGHT)
                     shots.remove(shots.get(i));
             }
         }
@@ -109,7 +113,7 @@ public class Game {
         //Remove creatures that are outside screen.
          if (creatures.size() > 0) {
             for (int i = creatures.size()-1; i >= 0; i--) {
-                if (creatures.get(i).y > height)
+                if (creatures.get(i).y > HEIGHT)
                     //Lägg till score minskas, alt life minskar när en ENEMY når botten av skärmen.
                     creatures.remove(creatures.get(i));
             }
@@ -119,7 +123,7 @@ public class Game {
         //Check player collision with creatures
         if (creatures.size() > 0) {
             for (int i = creatures.size()-1; i>=0; i--) {
-                if ((Math.abs(creatures.get(i).y - player.y) < 1) && ((Math.abs(creatures.get(i).x - player.x) < 1.5))) {
+                if ((Math.abs(creatures.get(i).y - player.y) < 0.75) && ((Math.abs(creatures.get(i).x - player.x) < 1.5))) {
                     if (creatures.get(i) instanceof Enemy) {
                         --player.life;
                     }
@@ -134,7 +138,31 @@ public class Game {
             }
         }
 
-        
+        //Check collision between shot and creature
+        if (creatures.size() > 0 && shots.size() > 0) {
+
+            for (int i = shots.size() - 1; i >= 0; i--) {
+
+                int shotToRemove = -1;
+
+                for (int j = creatures.size() - 1; j >= 0; j--) {
+                    if (creatures.get(j) instanceof Enemy && Math.abs(shots.get(i).y - creatures.get(j).y) < 1 &&
+                            Math.abs(shots.get(i).x - creatures.get(j).x) < 1) {
+
+                        shotToRemove = i;
+                        player.score += ((Enemy) creatures.get(j)).value;
+                        creatures.remove(creatures.get(j));
+
+                    }
+
+                }
+
+                if (shotToRemove >= 0)
+                    shots.remove(shots.get(shotToRemove));
+            }
+        }
+
+        // Check collision between
 
 
 
@@ -183,13 +211,13 @@ public class Game {
     private void checkForNewCreatures() {
         if (Math.random() < (1.00 / 120)) {
             if (Math.random() > 0.95) {
-                creatures.add(new ExtraLife(Math.random() * width, 0));
+                creatures.add(new ExtraLife(Math.random() * WIDTH, CEILING));
             } else if (Math.random() > 0.95) {
-                creatures.add(new PowerUp(Math.random() * width, 0));
+                creatures.add(new PowerUp(Math.random() * WIDTH, CEILING));
             } else if (Math.random() > 0.80) {
-                creatures.add(new FastEnemy(Math.random() * width, 0));
+                creatures.add(new FastEnemy(Math.random() * WIDTH, CEILING));
             } else {
-                creatures.add(new SlowEnemy(Math.random() * width, 0));
+                creatures.add(new SlowEnemy(Math.random() * WIDTH, CEILING));
             }
         }
     }
@@ -207,7 +235,8 @@ public class Game {
 
         terminal.clearScreen();
 
-        Draw.drawPlayer(terminal, this.player);
+        Draw.drawHeader(terminal, player);
+        Draw.drawPlayer(terminal, player);
 
         for (Creature creature : creatures) {
             Draw.drawCreature(terminal, creature);
