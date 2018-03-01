@@ -43,7 +43,7 @@ class FastEnemy extends Enemy {
     public FastEnemy(double x, double y) {
 
         super(x, y);
-        this.character = 'X';
+        this.character = '\u2620';
         this.speed = 0.1;
         this.value = 5;
     }
@@ -53,7 +53,7 @@ class SlowEnemy extends Enemy {
 
     public SlowEnemy(double x, double y) {
         super(x, y);
-        this.character = 'O';
+        this.character = '\u2622';
         this.value = 1;
     }
 }
@@ -66,7 +66,7 @@ class PowerUp extends Creature {
     public PowerUp(double x, double y) {
 
         super(x, y);
-        this.character = 'U';
+        this.character = '\u269d';
 
     }
 }
@@ -77,6 +77,7 @@ class ExtraLife extends PowerUp {
 
         super(x, y);
         this.character = '\u2764';
+
     }
 }
 
