@@ -16,6 +16,10 @@ public class Game {
     public static final int HEIGHT = 30;
     public static final int CEILING = 2;
     public static int fps = 0;
+    public static int level = 1;
+    public static int newLevel = 0;
+    public static int prefUPS = 60;
+    public static int prefFPS = 30;
 
     private Player player;
     private Terminal terminal;
@@ -43,6 +47,26 @@ public class Game {
         updateCreatures();
         updateShots();
         checkCollisions();
+        checkPlayerAlive();
+        updateLevel();
+    }
+
+    private void updateLevel() {
+        if (player.score>player.nextLevel) {
+            player.levelUp();
+            newLevel = prefUPS * 2;
+            Creature.levelUpCreatures(creatures);
+//            Thread levelUpThread = new Thread;
+
+
+
+        }
+    }
+
+    private void checkPlayerAlive() {
+
+        if (player.life<1)
+            player.isAlive=false;
     }
 
     public void render() {
@@ -82,14 +106,14 @@ public class Game {
     private void gameLoop() {
         boolean RENDER_TIME = true;
         long initialTime = System.nanoTime();
-        final double timeU = 1000000000 / 60; //Updates per second
-        final double timeF = 1000000000 / 30; //FPS;
+        final double timeU = 1000000000 / prefUPS; //Updates per second
+        final double timeF = 1000000000 / prefFPS; //FPS;
         double deltaU = 0, deltaF = 0;
         int frames = 0, ticks = 0;
         long timer = System.currentTimeMillis();
 
         //To do: Change condition to life greater than zero.
-        while (player.life > 0) {
+        while (player.isAlive) {
 
             long currentTime = System.nanoTime();
             deltaU += (currentTime - initialTime) / timeU;
@@ -104,6 +128,10 @@ public class Game {
 
             if (deltaF >= 1) {
                 render();
+                if (newLevel>0) {
+                    Draw.drawLevelUp(terminal);
+                    newLevel--;
+                }
                 frames++;
                 deltaF--;
             }
@@ -119,6 +147,17 @@ public class Game {
                 timer += 1000;
             }
         }
+        gameOver();
+    }
+
+    private void gameOver() {
+
+        Draw.drawGameOver(terminal);
+
+        //TODO: Load highscore table from file.
+        //TODO: Check user score against highscore and add score to highscore if applicable.
+        //TODO: Write highscore file.
+
     }
 
     public void handleInput() {
@@ -154,7 +193,7 @@ public class Game {
 
     //To do: Finns bättre sätt att göra detta, och vi är inte hundra procent överens om vilken vi väljer.
     private void checkForNewCreatures() {
-        if (Math.random() < (1.00 / 120)) {
+        if (Math.random() < (1.00 / (120/Game.level))) {
             if (Math.random() > 0.95) {
                 creatures.add(new ExtraLife(Math.random() * WIDTH, CEILING));
             } else if (Math.random() > 0.95) {
@@ -199,13 +238,13 @@ public class Game {
         //Check player collision with creatures
         if (creatures.size() > 0) {
             for (int i = creatures.size() - 1; i >= 0; i--) {
-                if ((Math.abs(creatures.get(i).y - player.y) < 0.75) && ((Math.abs(creatures.get(i).x - player.x) < 1.5))) {
+                if ((Math.abs(Math.round(creatures.get(i).y) - (Math.round(player.y))) < 0.75) && ((Math.abs(Math.round(creatures.get(i).x) - Math.round(player.x)) < 1.8))) {
                     if (creatures.get(i) instanceof Enemy) {
                         --player.life;
                     } else if (creatures.get(i) instanceof ExtraLife) {
                         ++player.life;
                     } else if (creatures.get(i) instanceof PowerUp) {
-                        player.score += 10;
+                        player.addScore(10);
                     }
                     creatures.remove(creatures.get(i));
                 }

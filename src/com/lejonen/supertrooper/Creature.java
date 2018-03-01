@@ -1,5 +1,7 @@
 package com.lejonen.supertrooper;
 
+import java.util.List;
+
 public abstract class Creature {
 
     double x;
@@ -21,8 +23,16 @@ public abstract class Creature {
 
     public static void moveCreature(Creature creature) {
 
-        creature.y += creature.speed;
+        creature.y += creature.speed*Game.level;
     }
+
+    public static void levelUpCreatures(List<Creature> creatures) {
+
+        for (int i = creatures.size()-1; i>=0; i--) {
+            creatures.get(i).speed += (creatures.get(i).speed * 0.25);
+        }
+    }
+
 }
 
 abstract class Enemy extends Creature {
@@ -43,7 +53,7 @@ class FastEnemy extends Enemy {
     public FastEnemy(double x, double y) {
 
         super(x, y);
-        this.character = 'X';
+        this.character = '\u2620';
         this.speed = 0.1;
         this.value = 5;
     }
@@ -53,7 +63,7 @@ class SlowEnemy extends Enemy {
 
     public SlowEnemy(double x, double y) {
         super(x, y);
-        this.character = 'O';
+        this.character = '\u2622';
         this.value = 1;
     }
 }
@@ -66,7 +76,7 @@ class PowerUp extends Creature {
     public PowerUp(double x, double y) {
 
         super(x, y);
-        this.character = 'U';
+        this.character = '\u269d';
 
     }
 }

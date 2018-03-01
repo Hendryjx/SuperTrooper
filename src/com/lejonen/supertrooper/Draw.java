@@ -44,8 +44,7 @@ public class Draw {
 
     public static void drawHeader(Terminal terminal, Player player) {
 
-        String header = "SCORE: " + player.score + "        LIFE: " + player.life + "       FPS: " + Game.fps;
-//        header +=
+        String header = "SCORE: " + player.score + "        LIFE: " + player.life + "        LEVEL: " + Game.level + "       FPS: " + Game.fps;
         int x = 1;
         int y = 0;
 
@@ -60,4 +59,23 @@ public class Draw {
             x += 1;
         }
     }
+
+    public static void drawGameOver(Terminal terminal) {
+        String gameOver = "Game Over";
+
+        for (int i = 0; i<gameOver.length(); i++) {
+            terminal.moveCursor(Game.WIDTH/2-(gameOver.length()/2)+i, Game.HEIGHT/2);
+            terminal.putCharacter(gameOver.charAt(i));
+        }
+
+    }
+
+    public static void drawLevelUp(Terminal terminal) {
+        String levelUp = "Level Up!";
+         for (int i = 0; i<levelUp.length(); i++) {
+            terminal.moveCursor(Game.WIDTH/2-(levelUp.length()/2)+i, Game.HEIGHT/2);
+            terminal.putCharacter(levelUp.charAt(i));
+        }
+    }
+
 }

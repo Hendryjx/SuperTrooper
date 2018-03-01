@@ -10,6 +10,9 @@ public class Player {
     double speed;
     int score;
     int life;
+    boolean isAlive;
+    int level;
+    int nextLevel;
 
     public char character;
 
@@ -24,23 +27,35 @@ public class Player {
         this.speed = speed;
         this.score = 0;
         this.life = 3;
+        this.isAlive = true;
         this.character='=';
+        this.nextLevel = 50;
 
+
+    }
+
+    public void levelUp() {
+        Game.level++;
+        nextLevel+=50;
+    }
+
+    public void addScore(int scoreToAdd) {
+        score += scoreToAdd;
     }
 
     public void moveLeft() {
 
-        this.x -= this.speed;
+        x -= this.speed;
     }
 
     public void moveRight() {
 
-        this.x += this.speed;
+        x += this.speed;
     }
 
     public void shoot(List<Shot> shots) {
 
-        shots.add(new Shot(this.x, this.y, 0.5));
+        shots.add(new Shot(x, y, 0.5));
     }
 
 
