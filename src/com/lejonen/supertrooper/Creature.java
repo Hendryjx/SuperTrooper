@@ -1,12 +1,10 @@
 package com.lejonen.supertrooper;
 
-import java.security.PublicKey;
-
 public abstract class Creature {
 
     double x;
     double y;
-    double speed;
+    double speed = 0.05;
     public char character;
 
 
@@ -19,15 +17,16 @@ public abstract class Creature {
     //Creature kan kollidera.
     //Creture kan skjutas sönder.
 
-    public Creature(double x, double y, double speed) {
+    //Lägg till färg för varje klass av creature.
+    //Nya creatures med annorlunda rörelsemönster.
+    //Vapen power-up.
+
+    public Creature(double x, double y) {
         this.x = x;
         this.y = y;
-        this.speed = speed;
-
     }
 
     public Creature() {
-
     }
 
     public static void moveCreature(Creature creature) {
@@ -36,62 +35,60 @@ public abstract class Creature {
 }
 
 
-class Enemy extends Creature {
+abstract class Enemy extends Creature {
+
     //Enemy är skadlig.
+    public Enemy(double x, double y) {
+        super(x, y);
+    }
+
+    public Enemy() {
+    }
 
 }
 
 class FastEnemy extends Enemy {
 
+    public FastEnemy(double x, double y) {
 
-    public FastEnemy(double x, double y, double speed) {
+        super(x, y);
         this.character = 'X';
-
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
+        this.speed = 0.1;
     }
 }
 
 class SlowEnemy extends Enemy {
 
-    public SlowEnemy(double x, double y, double speed) {
+    public SlowEnemy(double x, double y) {
+        super(x, y);
         this.character = 'O';
-
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-
     }
 }
 
 class PowerUp extends Creature {
 
     public PowerUp() {
-
     }
 
-    public PowerUp(double x, double y, double speed) {
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
+    public PowerUp(double x, double y) {
+
+        super(x, y);
+        this.character = 'U';
+
     }
 
 }
 
 class ExtraLife extends PowerUp {
 
-    public ExtraLife(double x, double y, double speed) {
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
+    public ExtraLife(double x, double y) {
 
-        this.character ='\u2764';
+        super(x, y);
+        this.character = '\u2764';
     }
 }
 
 class WeaponBoost extends PowerUp {
-
 
 }
 

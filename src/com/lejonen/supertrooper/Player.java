@@ -8,6 +8,7 @@ public class Player {
     double x;
     double y;
     double speed;
+    //Lägg till score och life.
 
     public char character;
 

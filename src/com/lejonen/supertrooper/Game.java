@@ -11,8 +11,9 @@ import java.util.List;
 public class Game {
 
     public boolean running;
-    int width = 100;
-    int height = 30;
+    //gjorde width och height final
+    final int width = 100;
+    final int height = 30;
     Player player;
     Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
 
@@ -47,6 +48,8 @@ public class Game {
         //int frames = 0, ticks = 0;
         //long timer = System.currentTimeMillis();
 
+
+        //Ändra condition till life större än noll.
         while (this.running) {
 
             long currentTime = System.nanoTime();
@@ -82,7 +85,30 @@ public class Game {
         handleInput();
         updateCreatures();
         updateShots();
+        //Started collision method
+        checkCollisions();
 
+
+    }
+
+    private void checkCollisions() {
+
+        if (shots.size() > 0) {
+            for (int i = shots.size()-1; i >= 0; i--) {
+                if (shots.get(i).y < 0 || shots.get(i).y > height)
+                    shots.remove(shots.get(i));
+            }
+        }
+         if (creatures.size() > 0) {
+            for (int i = creatures.size()-1; i >= 0; i--) {
+                if (creatures.get(i).y > height)
+                    //Lägg till score minskas, alt life minskar när en ENEMY når botten av skärmen.
+                    creatures.remove(creatures.get(i));
+            }
+        }
+
+        //Lägg till collisions mellan spelare och creatures, skott och creatures och spelare och skott.
+        //Öka score om spelaren träffar fiende, öka life om hjärta plockas upp etc.
 
     }
 
@@ -109,21 +135,30 @@ public class Game {
 
     public void updateCreatures() {
 
-        if (Math.random() < (1.00 / 120)) {
-            if (Math.random() > 0.50) {
-                creatures.add(new ExtraLife(Math.random() * width, 0, 0.05));
-            } else if (Math.random() > 0.50) {
-                creatures.add(new PowerUp(Math.random() * width, 0, 0.05));
-            } else if (Math.random() > 0.80) {
-                creatures.add(new FastEnemy(Math.random() * width, 0, 0.1));
-            } else {
-                creatures.add(new SlowEnemy(Math.random() * width, 0, 0.05));
-            }
-        }
+// Extracted creature spawn method.
+        checkForNewCreatures();
 
 
         for (Creature creature : creatures) {
             Creature.moveCreature(creature);
+        }
+    }
+
+
+
+    // Finns bättre sätt att göra detta, och vi är inte hundra procent överens om vilken vi väljer.
+    private void checkForNewCreatures() {
+        if (Math.random() < (1.00 / 120)) {
+            if (Math.random() > 0.95) {
+                creatures.add(new ExtraLife(Math.random() * width, 0));
+            } else if (Math.random() > 0.95) {
+                creatures.add(new PowerUp(Math.random() * width, 0));
+            } else if (Math.random() > 0.80) {
+                creatures.add(new FastEnemy(Math.random() * width, 0));
+            } else {
+                creatures.add(new SlowEnemy(Math.random() * width, 0));
+                System.out.println("slow enemy");
+            }
         }
     }
 
@@ -135,6 +170,7 @@ public class Game {
     }
 
 
+    //render-metoden bör flyttas till draw-klassen för tydlighet och sammanhang, typ Draw.render eller nåt.
     public void render() {
 
         terminal.clearScreen();

@@ -4,11 +4,12 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 public class Draw {
 
+    //För varje metod, lägg till byt färg till aktuellt objekts färg.
+
     public static void drawPlayer(Terminal terminal, Player player){
 
-        // kontroll om flytt får ske
-        int x = (int) player.x;
-        int y = (int) player.y;
+        int x = (int) Math.round(player.x);
+        int y = (int) Math.round(player.y);
 
         terminal.moveCursor(x - 1, y);
         terminal.putCharacter('=');
@@ -19,8 +20,6 @@ public class Draw {
         terminal.moveCursor(x + 1, y);
         terminal.putCharacter('=');
 
-        //Skicka in terminal, den som skall anropa draw måste ha tillgång till terminalen redan.
-        //Skicka in positioner för Player, Shot, Creature, Collision(?).
     }
 
     public static void drawShot(Terminal terminal, Shot shot){
@@ -31,8 +30,6 @@ public class Draw {
         terminal.moveCursor(x, y);
         terminal.putCharacter(shot.character);
 
-        //Skicka in terminal, den som skall anropa draw måste ha tillgång till terminalen redan.
-        //Skicka in positioner för Player, Shot, Creature, Collision(?).
     }
 
     public static void drawCreature(Terminal terminal, Creature creature){
@@ -43,7 +40,5 @@ public class Draw {
         terminal.moveCursor(x, y);
         terminal.putCharacter(creature.character);
 
-        //Skicka in terminal, den som skall anropa draw måste ha tillgång till terminalen redan.
-        //Skicka in positioner för Player, Shot, Creature, Collision(?).
     }
 }
