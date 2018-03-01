@@ -1,6 +1,5 @@
 package com.lejonen.supertrooper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -11,15 +10,12 @@ public class Player {
     int score;
     int life;
     boolean isAlive;
-    int level;
     int nextLevel;
 
     public char character;
 
-    //To do: Player skall räkna sina liv. Variabeln life skall ha en set- och en getmetod.
-    //To do: 99 liv är max.
-
-    //To do: Player behöver hålla koll på sin position (x,y). Positionen behöver ha en set- och getmetod.
+    //TODO: Player skall räkna sina liv. Variabeln life skall ha en set- och en getmetod.
+    //TODO: Player behöver hålla koll på sin position (x,y). Positionen behöver ha en set- och getmetod.
 
     public Player (double x, double y, double speed){
         this.x = x;
@@ -30,8 +26,6 @@ public class Player {
         this.isAlive = true;
         this.character='=';
         this.nextLevel = 50;
-
-
     }
 
     public void levelUp() {
@@ -57,8 +51,4 @@ public class Player {
 
         shots.add(new Shot(x, y, 0.5));
     }
-
-
-
-
 }

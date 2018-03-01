@@ -51,24 +51,6 @@ public class Game {
         updateLevel();
     }
 
-    private void updateLevel() {
-        if (player.score>player.nextLevel) {
-            player.levelUp();
-            newLevel = prefUPS * 2;
-            Creature.levelUpCreatures(creatures);
-//            Thread levelUpThread = new Thread;
-
-
-
-        }
-    }
-
-    private void checkPlayerAlive() {
-
-        if (player.life<1)
-            player.isAlive=false;
-    }
-
     public void render() {
 
         terminal.clearScreen();
@@ -112,7 +94,7 @@ public class Game {
         int frames = 0, ticks = 0;
         long timer = System.currentTimeMillis();
 
-        //To do: Change condition to life greater than zero.
+        //TODO: Change condition to life greater than zero.
         while (player.isAlive) {
 
             long currentTime = System.nanoTime();
@@ -191,7 +173,7 @@ public class Game {
         }
     }
 
-    //To do: Finns bättre sätt att göra detta, och vi är inte hundra procent överens om vilken vi väljer.
+    //TODO: Finns bättre sätt att göra detta, och vi är inte hundra procent överens om vilken vi väljer.
     private void checkForNewCreatures() {
         if (Math.random() < (1.00 / (120/Game.level))) {
             if (Math.random() > 0.95) {
@@ -215,7 +197,7 @@ public class Game {
 
     private void checkCollisions() {
 
-        //To do: Maybe shot and creature should both be part of a superclass Entity to streamline the code and remove duplication.
+        //TODO: Maybe shot and creature should both be part of a superclass Entity to streamline the code and remove duplication.
 
         //Remove shots that are outside screen.
         if (shots.size() > 0) {
@@ -273,6 +255,20 @@ public class Game {
                 if (shotToRemove >= 0)
                     shots.remove(shots.get(shotToRemove));
             }
+        }
+    }
+    private void checkPlayerAlive() {
+
+        if (player.life<1)
+            player.isAlive=false;
+    }
+
+    private void updateLevel() {
+        if (player.score>player.nextLevel) {
+            player.levelUp();
+            newLevel = prefUPS * 2;
+            Creature.levelUpCreatures(creatures);
+
         }
     }
 }

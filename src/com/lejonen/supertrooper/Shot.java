@@ -7,8 +7,8 @@ public class Shot {
     double speed;
     public char character;
 
-    //To do: double deltax;
-    //To do: double deltay;
+    //TODO: double deltax;
+    //TODO: double deltay;
 
     public Shot(double x, double y, double speed) {
         this.x = x;

@@ -4,7 +4,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 public class Draw {
 
-    //To do: För varje metod, lägg till byt färg till aktuellt objekts färg.
+    //TODO: För varje metod, lägg till byt färg till aktuellt objekts färg.
 
     public static void drawPlayer(Terminal terminal, Player player){
 
@@ -28,6 +28,7 @@ public class Draw {
         int y = (int) shot.y;
 
         terminal.moveCursor(x, y);
+        terminal.applyForegroundColor(255, 255, 255);
         terminal.putCharacter(shot.character);
 
     }
@@ -38,6 +39,7 @@ public class Draw {
         int y = (int) creature.y;
 
         terminal.moveCursor(x, y);
+        terminal.applyForegroundColor(creature.colorR, creature.colorG, creature.colorB);
         terminal.putCharacter(creature.character);
 
     }
@@ -50,11 +52,13 @@ public class Draw {
 
         for (int i = 0; i < Game.WIDTH; i++) {
             terminal.moveCursor(i, y + 1);
+            terminal.applyForegroundColor(255,255,255);
             terminal.putCharacter('-');
         }
 
         for (int k = 0; k < header.length(); k++) {
             terminal.moveCursor(x, y);
+            terminal.applyForegroundColor(255,255,255);
             terminal.putCharacter(header.charAt(k));
             x += 1;
         }
@@ -65,6 +69,7 @@ public class Draw {
 
         for (int i = 0; i<gameOver.length(); i++) {
             terminal.moveCursor(Game.WIDTH/2-(gameOver.length()/2)+i, Game.HEIGHT/2);
+            terminal.applyForegroundColor(255,255,255);
             terminal.putCharacter(gameOver.charAt(i));
         }
 
@@ -74,8 +79,8 @@ public class Draw {
         String levelUp = "Level Up!";
          for (int i = 0; i<levelUp.length(); i++) {
             terminal.moveCursor(Game.WIDTH/2-(levelUp.length()/2)+i, Game.HEIGHT/2);
+            terminal.applyForegroundColor(255,255,255);
             terminal.putCharacter(levelUp.charAt(i));
         }
     }
-
 }
