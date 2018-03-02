@@ -1,7 +1,5 @@
 package com.lejonen.supertrooper;
 
-import com.googlecode.lanterna.terminal.Terminal;
-
 import java.util.List;
 
 public abstract class Creature {
@@ -51,8 +49,8 @@ abstract class Enemy extends Creature {
     }
 
     public Enemy() {
-    }
 
+    }
 }
 
 class Boss extends Enemy {
@@ -70,12 +68,8 @@ class Boss extends Enemy {
         this.colorB = 0;
         this.value = 50;
 
-
     }
-
 }
-
-
 
 class FastEnemy extends Enemy {
 
@@ -131,8 +125,4 @@ class ExtraLife extends PowerUp {
         this.colorB = 40;
 
     }
-}
-
-class WeaponBoost extends PowerUp {
-
 }

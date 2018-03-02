@@ -7,8 +7,6 @@ public class Shot {
     double speed;
     public char character;
 
-    //TODO: double deltax;
-    //TODO: double deltay;
 
     public Shot(double x, double y, double speed) {
         this.x = x;
@@ -27,9 +25,5 @@ public class Shot {
 
         shot.y += shot.speed;
 
-    }
-
-    public void setCharacter(char character) {
-        this.character = character;
     }
 }

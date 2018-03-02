@@ -14,9 +14,6 @@ public class Player {
 
     public char character;
 
-    //TODO: Player skall räkna sina liv. Variabeln life skall ha en set- och en getmetod.
-    //TODO: Player behöver hålla koll på sin position (x,y). Positionen behöver ha en set- och getmetod.
-
     public Player (double x, double y, double speed){
         this.x = x;
         this.y = y;
@@ -57,6 +54,4 @@ public class Player {
 
         shots.add(new Shot(x, y - 1, 0.5));
     }
-
-
 }

@@ -8,8 +8,6 @@ import static com.lejonen.supertrooper.HighScore.highScores;
 
 public class Draw {
 
-    //TODO: För varje metod, lägg till byt färg till aktuellt objekts färg.
-
     public static void drawPlayer(Terminal terminal, Player player) {
 
         int x = (int) Math.round(player.x);
@@ -37,7 +35,7 @@ public class Draw {
 
     }
 
-    public static void drawBossShot(Terminal terminal, Shot bossShot){
+    public static void drawBossShot(Terminal terminal, Shot bossShot) {
 
         int x = (int) bossShot.x;
         int y = (int) bossShot.y;
@@ -48,7 +46,7 @@ public class Draw {
 
     }
 
-    public static void drawCreature(Terminal terminal, Creature creature){
+    public static void drawCreature(Terminal terminal, Creature creature) {
 
         int x = (int) creature.x;
         int y = (int) creature.y;
@@ -59,7 +57,7 @@ public class Draw {
 
     }
 
-    public static void drawBoss(Terminal terminal, Creature boss){
+    public static void drawBoss(Terminal terminal, Creature boss) {
 
         int x = (int) Math.round(boss.x);
         int y = (int) Math.round(boss.y);
@@ -77,26 +75,27 @@ public class Draw {
 
     }
 
-
     public static void drawHeader(Terminal terminal, Player player, Creature boss) {
 
-        String header = "SCORE: " + player.score + "        LIFE: " + player.life + "        LEVEL: " + Game.level + "       FPS: " + Game.fps + "      Boss Health: " + boss.life ;
+        String header = "SCORE: " + player.score + "        LIFE: " + player.life + "        " +
+                "LEVEL: " + Game.level + "       FPS: " + Game.fps + "      Boss Health: " + boss.life;
         int x = 1;
         int y = 0;
 
         for (int i = 0; i < Game.WIDTH; i++) {
             terminal.moveCursor(i, y + 1);
-            terminal.applyForegroundColor(255,255,255);
+            terminal.applyForegroundColor(255, 255, 255);
             terminal.putCharacter('-');
         }
 
         for (int k = 0; k < header.length(); k++) {
             terminal.moveCursor(x, y);
-            terminal.applyForegroundColor(255,255,255);
+            terminal.applyForegroundColor(255, 255, 255);
             terminal.putCharacter(header.charAt(k));
             x += 1;
         }
     }
+
     public static void drawHeader(Terminal terminal, Player player) {
 
         String header = "SCORE: " + player.score + "        LIFE: " + player.life + "        LEVEL: " + Game.level + "       FPS: " + Game.fps;
@@ -125,7 +124,6 @@ public class Draw {
             terminal.applyForegroundColor(255, 255, 255);
             terminal.putCharacter(gameOver.charAt(i));
         }
-
     }
 
     public static void drawLevelUp(Terminal terminal) {
@@ -139,7 +137,6 @@ public class Draw {
 
     public static String getAndDrawName(Terminal terminal) {
 
-
         String message = "NEW HIGHSCORE!! Enter your name: ";
         int cursorX = (Game.WIDTH / 2) - message.length();
         String name = "";
@@ -149,13 +146,13 @@ public class Draw {
 
             terminal.moveCursor(cursorX, (Game.HEIGHT / 2) + 2);
             terminal.putCharacter(message.charAt(i));
-            cursorX ++;
+            cursorX++;
         }
 
         while (true) {
             Key key = terminal.readInput();
 
-            if (key==null)
+            if (key == null)
                 try {
                     Thread.sleep(5);
                 } catch (Exception e) {
@@ -168,11 +165,10 @@ public class Draw {
                 terminal.moveCursor(cursorX, (Game.HEIGHT / 2) + 2);
                 terminal.putCharacter(c);
                 name += c;
-                cursorX ++;
+                cursorX++;
 
             }
-
-            }
+        }
 
         name = name.substring(0, 3);
         return name;
@@ -181,10 +177,10 @@ public class Draw {
     public static void drawHighScore(Terminal terminal, String[] highScores) {
 
         terminal.clearScreen();
-        int cursorX = (Game.WIDTH /2)-3;
-        int cursorY = (Game.HEIGHT / 2) -5;
-        for (int i = 0; i<highScores.length; i++) {
-            for (int j=0; j<highScores[i].length(); j++) {
+        int cursorX = (Game.WIDTH / 2) - 3;
+        int cursorY = (Game.HEIGHT / 2) - 5;
+        for (int i = 0; i < highScores.length; i++) {
+            for (int j = 0; j < highScores[i].length(); j++) {
                 terminal.moveCursor(cursorX, cursorY);
                 terminal.putCharacter(highScores[i].charAt(j));
                 cursorX++;
@@ -192,6 +188,5 @@ public class Draw {
             cursorY++;
             cursorX -= 7;
         }
-
     }
 }
