@@ -39,16 +39,24 @@ public class Player {
 
     public void moveLeft() {
 
+        if (x < 3)
+            x = 3;
+
         x -= this.speed;
     }
 
     public void moveRight() {
+
+        if (x>Game.WIDTH-4)
+            x = Game.WIDTH-4;
 
         x += this.speed;
     }
 
     public void shoot(List<Shot> shots) {
 
-        shots.add(new Shot(x, y, 0.5));
+        shots.add(new Shot(x, y - 1, 0.5));
     }
+
+
 }

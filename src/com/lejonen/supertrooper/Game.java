@@ -23,6 +23,11 @@ public class Game {
     private Player player;
     private Terminal terminal;
 
+    // Boss
+    private Creature boss;
+    private List<Shot> bossShots;
+
+
     List<Creature> creatures;
     List<Shot> shots;
 
@@ -32,6 +37,8 @@ public class Game {
         initializePlayer();
         initializeCreatures();
         initializeShots();
+        initializeBoss();
+        intializeBossShots();
     }
 
     public void startGame() {
@@ -43,19 +50,60 @@ public class Game {
     public void update() {
 
         handleInput();
-        updateCreatures();
         updateShots();
         checkCollisions();
         checkPlayerAlive();
         updateLevel();
+
+        if (level % 3 == 0) {
+
+            moveBoss(player, boss);
+            updateBossShots();
+            bossShoot(bossShots);
+            bossAlive();
+        }
+
+        else {
+            updateCreatures();
+        }
+
+
+
+    }
+
+    private void bossAlive() {
+        if (boss.life < 1) {
+            player.score += boss.value;
+            boss.x = -2;
+            player.levelUp();
+        }
+    }
+
+    // updateBOss?
+    public void moveBoss(Player player, Creature boss) {
+
+        double xDiff = player.x - boss.x;
+
+        if (xDiff > 0) {
+            boss.x += boss.speed;
+        }
+        else {
+            boss.x -= boss.speed;
+        }
+
+//        System.out.println(boss.x);
+
     }
 
     public void render() {
+
+
 
         terminal.clearScreen();
 
         Draw.drawHeader(terminal, player);
         Draw.drawPlayer(terminal, player);
+
 
         for (Creature creature : creatures) {
             Draw.drawCreature(terminal, creature);
@@ -64,6 +112,24 @@ public class Game {
         for (Shot shot : shots) {
             Draw.drawShot(terminal, shot);
         }
+
+        if (level % 3 == 0) {
+
+            terminal.clearScreen();
+
+            Draw.drawHeader(terminal, player, boss);
+            Draw.drawPlayer(terminal, player);
+            Draw.drawBoss(terminal, boss);
+
+            for (Shot shot : shots) {
+                Draw.drawShot(terminal, shot);
+            }
+
+            for (Shot bossShot : bossShots) {
+                Draw.drawBossShot(terminal, bossShot);
+            }
+        }
+
     }
 
     private void initializeTerminal() {
@@ -80,8 +146,18 @@ public class Game {
         shots = new ArrayList<>();
     }
 
+    private void intializeBossShots() {
+        bossShots = new ArrayList<>();
+
+    }
+
     private void initializeCreatures() {
         creatures = new ArrayList<>();
+    }
+
+    private void initializeBoss () {
+        boss = new Boss();
+
     }
 
     private void gameLoop() {
@@ -119,9 +195,7 @@ public class Game {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 if (RENDER_TIME) {
-                    System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
                     fps = frames;
-                    System.out.println("SCORE: " + player.score + "     LIFE: " + player.life);
                 }
                 frames = 0;
                 ticks = 0;
@@ -195,6 +269,15 @@ public class Game {
         for (Shot shot : shots) {
             Shot.moveShot(shot);
         }
+
+    }
+
+    public void updateBossShots() {
+
+        for (Shot bossShot : bossShots) {
+
+            Shot.moveBossShot(bossShot);
+        }
     }
 
     private void checkCollisions() {
@@ -206,6 +289,14 @@ public class Game {
             for (int i = shots.size() - 1; i >= 0; i--) {
                 if (shots.get(i).y < CEILING || shots.get(i).y > HEIGHT)
                     shots.remove(shots.get(i));
+            }
+        }
+
+        //Remove shots that are outside screen.
+        if (bossShots.size() > 0) {
+            for (int i = bossShots.size() - 1; i >= 0; i--) {
+                if (bossShots.get(i).y > HEIGHT)
+                    bossShots.remove(bossShots.get(i));
             }
         }
 
@@ -258,6 +349,48 @@ public class Game {
                     shots.remove(shots.get(shotToRemove));
             }
         }
+
+        //Check collision between shot and boss
+        if (shots.size() > 0) {
+
+            for (int i = shots.size() - 1; i >= 0; i--) {
+
+                int shotToRemove = -1;
+
+                if (Math.abs(shots.get(i).y - boss.y) < 1 &&
+                        Math.abs(shots.get(i).x - boss.x) < 1.5) {
+                    shotToRemove = i;
+                    boss.life--;
+                }
+
+                if (shotToRemove >= 0)
+                    shots.remove(shots.get(shotToRemove));
+
+
+            }
+        }
+
+        //Check collision between boss shot and player
+        if (bossShots.size() > 0) {
+
+            for (int i = bossShots.size() - 1; i >= 0; i--) {
+
+                int shotToRemove = -1;
+
+                for (int j = bossShots.size() - 1; j >= 0; j--) {
+                    if (Math.abs(bossShots.get(i).y - player.y) < 1 && Math.abs(bossShots.get(i).x - player.x) < 1.5) {
+
+                        shotToRemove = i;
+                        player.life--;
+
+                    }
+
+                }
+
+                if (shotToRemove >= 0)
+                    bossShots.remove(bossShots.get(shotToRemove));
+            }
+        }
     }
     private void checkPlayerAlive() {
 
@@ -272,5 +405,11 @@ public class Game {
             Creature.levelUpCreatures(creatures);
 
         }
+    }
+
+    public void bossShoot(List<Shot> bossShots) {
+
+        if (Math.random() < (1.00 / (120/Game.level)))
+            bossShots.add(new Shot(boss.x, (Game.HEIGHT/2) + 1, 0.075));
     }
 }
