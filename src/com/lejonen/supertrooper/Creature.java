@@ -59,7 +59,7 @@ class Boss extends Enemy {
 
     public Boss() {
 
-        this.life = 10;
+        this.life = 50;
 
         this.y = Game.HEIGHT/2;
         this.x = 0;
