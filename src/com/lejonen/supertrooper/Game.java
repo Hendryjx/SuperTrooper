@@ -158,6 +158,7 @@ public class Game {
 
     private void initializeBoss () {
         boss = new Boss();
+
     }
 
     private void gameLoop() {
@@ -195,9 +196,7 @@ public class Game {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 if (RENDER_TIME) {
-                    System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
                     fps = frames;
-                    System.out.println("SCORE: " + player.score + "     LIFE: " + player.life);
                 }
                 frames = 0;
                 ticks = 0;
@@ -360,7 +359,6 @@ public class Game {
                         Math.abs(shots.get(i).x - boss.x) < 1.5) {
                     shotToRemove = i;
                     boss.life--;
-                    System.out.println(boss.life);
                 }
 
                 if (shotToRemove >= 0)
@@ -410,6 +408,6 @@ public class Game {
     public void bossShoot(List<Shot> bossShots) {
 
         if (Math.random() < (1.00 / (120/Game.level)))
-            bossShots.add(new Shot(boss.x, (Game.HEIGHT/2), 0.025));
+            bossShots.add(new Shot(boss.x, (Game.HEIGHT/2) + 1, 0.075));
     }
 }

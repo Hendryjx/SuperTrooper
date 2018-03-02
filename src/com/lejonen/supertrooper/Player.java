@@ -55,7 +55,7 @@ public class Player {
 
     public void shoot(List<Shot> shots) {
 
-        shots.add(new Shot(x, y, 0.5));
+        shots.add(new Shot(x, y - 1, 0.5));
     }
 
 

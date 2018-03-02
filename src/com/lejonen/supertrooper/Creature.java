@@ -65,17 +65,13 @@ class Boss extends Enemy {
         this.x = 0;
         this.speed = 0.25;
         this.character = 'X';
-        this.colorR = 102;
+        this.colorR = 255;
         this.colorG = 0;
-        this.colorB = 153;
+        this.colorB = 0;
         this.value = 50;
 
-    }
 
-//    public void bossShoot(List<Shot> bossShots) {
-//
-//        bossShots.add(new Shot(this.x, (Game.HEIGHT/2), 0.25));
-//    }
+    }
 
 }
 

@@ -60,6 +60,8 @@ public class Draw {
         int x = (int) Math.round(boss.x);
         int y = (int) Math.round(boss.y);
 
+        terminal.applyForegroundColor(boss.colorR, boss.colorG, boss.colorB);
+
         terminal.moveCursor(x - 1, y);
         terminal.putCharacter(boss.character);
 
