@@ -39,10 +39,16 @@ public class Player {
 
     public void moveLeft() {
 
+        if (x < 3)
+            x = 3;
+
         x -= this.speed;
     }
 
     public void moveRight() {
+
+        if (x>Game.WIDTH-4)
+            x = Game.WIDTH-4;
 
         x += this.speed;
     }
@@ -51,4 +57,6 @@ public class Player {
 
         shots.add(new Shot(x, y, 0.5));
     }
+
+
 }

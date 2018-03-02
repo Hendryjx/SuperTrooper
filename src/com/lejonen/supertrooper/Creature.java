@@ -11,6 +11,8 @@ public abstract class Creature {
     double speed = 0.05;
     public char character;
     public int colorR, colorG, colorB;
+    int life;
+    int value;
 
     //TODO: Lägg till färg för varje klass av creature.
     //TODO: Nya creatures med annorlunda rörelsemönster.
@@ -52,6 +54,32 @@ abstract class Enemy extends Creature {
     }
 
 }
+
+class Boss extends Enemy {
+
+    public Boss() {
+
+        this.life = 10;
+
+        this.y = Game.HEIGHT/2;
+        this.x = 0;
+        this.speed = 0.25;
+        this.character = 'X';
+        this.colorR = 102;
+        this.colorG = 0;
+        this.colorB = 153;
+        this.value = 50;
+
+    }
+
+//    public void bossShoot(List<Shot> bossShots) {
+//
+//        bossShots.add(new Shot(this.x, (Game.HEIGHT/2), 0.25));
+//    }
+
+}
+
+
 
 class FastEnemy extends Enemy {
 

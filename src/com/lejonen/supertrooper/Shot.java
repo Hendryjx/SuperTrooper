@@ -22,4 +22,14 @@ public class Shot {
         shot.y -= shot.speed;
 
     }
+
+    public static void moveBossShot(Shot shot) {
+
+        shot.y += shot.speed;
+
+    }
+
+    public void setCharacter(char character) {
+        this.character = character;
+    }
 }

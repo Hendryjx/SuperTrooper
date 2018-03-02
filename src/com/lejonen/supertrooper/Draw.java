@@ -12,13 +12,13 @@ public class Draw {
         int y = (int) Math.round(player.y);
 
         terminal.moveCursor(x - 1, y);
-        terminal.putCharacter('=');
+        terminal.putCharacter(player.character);
 
         terminal.moveCursor(x, y);
-        terminal.putCharacter('=');
+        terminal.putCharacter(player.character);
 
         terminal.moveCursor(x + 1, y);
-        terminal.putCharacter('=');
+        terminal.putCharacter(player.character);
 
     }
 
@@ -33,6 +33,17 @@ public class Draw {
 
     }
 
+    public static void drawBossShot(Terminal terminal, Shot bossShot){
+
+        int x = (int) bossShot.x;
+        int y = (int) bossShot.y;
+
+        terminal.moveCursor(x, y);
+        terminal.applyForegroundColor(255, 255, 255);
+        terminal.putCharacter('0');
+
+    }
+
     public static void drawCreature(Terminal terminal, Creature creature){
 
         int x = (int) creature.x;
@@ -44,6 +55,42 @@ public class Draw {
 
     }
 
+    public static void drawBoss(Terminal terminal, Creature boss){
+
+        int x = (int) Math.round(boss.x);
+        int y = (int) Math.round(boss.y);
+
+        terminal.moveCursor(x - 1, y);
+        terminal.putCharacter(boss.character);
+
+        terminal.moveCursor(x, y);
+        terminal.putCharacter(boss.character);
+
+        terminal.moveCursor(x + 1, y);
+        terminal.putCharacter(boss.character);
+
+    }
+
+
+    public static void drawHeader(Terminal terminal, Player player, Creature boss) {
+
+        String header = "SCORE: " + player.score + "        LIFE: " + player.life + "        LEVEL: " + Game.level + "       FPS: " + Game.fps + "      Boss Health: " + boss.life ;
+        int x = 1;
+        int y = 0;
+
+        for (int i = 0; i < Game.WIDTH; i++) {
+            terminal.moveCursor(i, y + 1);
+            terminal.applyForegroundColor(255,255,255);
+            terminal.putCharacter('-');
+        }
+
+        for (int k = 0; k < header.length(); k++) {
+            terminal.moveCursor(x, y);
+            terminal.applyForegroundColor(255,255,255);
+            terminal.putCharacter(header.charAt(k));
+            x += 1;
+        }
+    }
     public static void drawHeader(Terminal terminal, Player player) {
 
         String header = "SCORE: " + player.score + "        LIFE: " + player.life + "        LEVEL: " + Game.level + "       FPS: " + Game.fps;
