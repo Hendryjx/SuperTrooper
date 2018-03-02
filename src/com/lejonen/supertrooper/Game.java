@@ -10,14 +10,13 @@ import java.util.List;
 
 public class Game {
 
-    public boolean running;
     //WIDTH and HEIGHT final
     public static final int WIDTH = 100;
     public static final int HEIGHT = 30;
     public static final int CEILING = 2;
     public static int fps = 0;
     public static int level = 1;
-    public static int newLevel = 0;
+    public static int levelDrawTimer = 0;
     public static int prefUPS = 60;
     public static int prefFPS = 30;
 
@@ -110,9 +109,9 @@ public class Game {
 
             if (deltaF >= 1) {
                 render();
-                if (newLevel>0) {
+                if (levelDrawTimer>0) {
                     Draw.drawLevelUp(terminal);
-                    newLevel--;
+                    levelDrawTimer--;
                 }
                 frames++;
                 deltaF--;
@@ -135,10 +134,13 @@ public class Game {
     private void gameOver() {
 
         Draw.drawGameOver(terminal);
+        HighScore.checkScore(terminal, player);
+        Draw.drawHighScore(terminal, HighScore.highScores);
 
         //TODO: Load highscore table from file.
         //TODO: Check user score against highscore and add score to highscore if applicable.
         //TODO: Write highscore file.
+
 
     }
 
@@ -266,7 +268,7 @@ public class Game {
     private void updateLevel() {
         if (player.score>player.nextLevel) {
             player.levelUp();
-            newLevel = prefUPS * 2;
+            levelDrawTimer = prefUPS * 2;
             Creature.levelUpCreatures(creatures);
 
         }
